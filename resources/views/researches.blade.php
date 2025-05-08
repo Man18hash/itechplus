@@ -7,7 +7,7 @@
 <div class="container py-5">
   <!-- Page Header -->
   <div class="text-center mb-5">
-    <h1 class="display-4">Be Part of ITECHCONNECT</h1>
+    <h1 class="display-4">Be Part of ITechPlus</h1>
     <p class="lead text-muted">Select a Technology Category &amp; Apply</p>
   </div>
 
@@ -64,7 +64,7 @@
     <!-- Email Address Display -->
     <p class="mt-3 text-muted">
       You can also reach us directly at:
-      <a href="mailto:itechconnectr02@gmail.com">itechconnectr02@gmail.com</a>
+      <a href="mailto:itechconnectr02@gmail.com">itechplusr02@gmail.com</a>
     </p>
   </div>
 </div>

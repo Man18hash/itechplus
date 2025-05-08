@@ -21,9 +21,9 @@ class ProjectSeeder extends Seeder
             // Existing Projects
             [
                 'project_type' => 'Web App',
-                'project_name' => 'iTechConnect Dashboard',
+                'project_name' => 'iTechPlus Dashboard',
                 'description'  => 'A portal for businesses to browse and request quotes on tech projects.',
-                'cover_image'  => 'itechconnect.png',
+                'cover_image'  => 'itechplus.png',
                 'date'         => '2025-05-01',
                 'category_id'  => $cat('digital-transformation'),
                 'created_at'   => $now,
