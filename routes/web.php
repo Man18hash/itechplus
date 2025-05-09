@@ -63,7 +63,8 @@ Route::prefix('admin')->middleware('guest:admin')->group(function () {
     Route::post('/login', [AdminAuthController::class, 'login'])
          ->name('admin.auth.login');
 });
-
+Route::get('/attachments/{filename}', [ChatController::class, 'downloadAttachment'])
+     ->name('attachments.download');
 
 /*
 |--------------------------------------------------------------------------
@@ -88,10 +89,12 @@ Route::middleware('auth:web')->group(function () {
          ->name('cart.updateStatus');
 
     // Profile updates
-    Route::post('/profile',      [AuthController::class, 'updateProfile'])
+    Route::post('/profile', [AuthController::class, 'updateProfile'])
          ->name('profile.update');
-    Route::post('/profile-info', [AuthController::class, 'updateInfo'])
+
+    Route::patch('/profile-info', [AuthController::class, 'updateInfo'])
          ->name('profile.info');
+
 
     // Business Message Threads & Chat
     Route::get('/messages',                     [BusinessMessageController::class, 'index'])
@@ -161,4 +164,7 @@ Route::prefix('admin')
           });
           Route::get('/admin/home', [App\Http\Controllers\Admin\HomeController::class, 'index'])
           ->name('admin.home');
+          Route::get('/attachments/{filename}', [ChatController::class, 'downloadAttachment'])
+          ->name('attachments.download');
+     
      

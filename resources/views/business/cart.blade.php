@@ -61,13 +61,7 @@
                   <button class="btn btn-outline-danger btn-sm">
                     <i class="fas fa-trash-alt me-1"></i> Remove
                   </button>
-                </form>
-                <a 
-                  href="{{ route('projects.show', $p) }}" 
-                  class="btn btn-primary btn-sm"
-                >
-                  <i class="fas fa-info-circle me-1"></i> Details
-                </a>
+                </form> 
               </div>
             </div>
           </div>
@@ -79,43 +73,6 @@
 @endsection
 
 @section('modals')
-  <!-- Modal: Edit Profile Image -->
-  <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <form method="POST"
-            action="{{ route('profile.update') }}"
-            enctype="multipart/form-data"
-            class="modal-content">
-        @csrf
-        @method('PATCH')    {{-- ← required to hit your PATCH route --}}
-
-        <div class="modal-header">
-          <h5 class="modal-title">Edit Profile Image</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">Choose Image</label>
-            <input type="file"
-                   name="profile_image"
-                   class="form-control @error('profile_image') is-invalid @enderror"
-                   required>
-            @error('profile_image')
-              <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal">Cancel</button>
-          <button type="submit"
-                  class="btn btn-primary">Upload</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <!-- Modal: Edit Profile Info -->
   <div class="modal fade" id="infoModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">

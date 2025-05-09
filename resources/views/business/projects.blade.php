@@ -67,11 +67,11 @@
   <div class="row g-4">
     @forelse($projects as $project)
       <div class="col-md-4">
-        <div class="card h-100 text-center shadow-sm">
+        <div class="card h-100 text-center shadow-sm transition-hover rounded-lg">
           @if($project->cover_image)
             <img
               src="{{ asset('images/covers/'.$project->cover_image) }}"
-              class="card-img-top mx-auto mt-3 rounded"
+              class="card-img-top rounded-top-lg mx-auto mt-3"
               alt="{{ $project->project_name }}"
               style="width:100px; height:100px; object-fit:cover;"
             >
@@ -119,21 +119,13 @@
 @endsection
 
 @section('modals')
-  <div class="modal fade"
-       id="quotationConfirmModal"
-       tabindex="-1"
-       aria-labelledby="quotationConfirmModalLabel"
-       aria-hidden="true">
+  {{-- Quotation Confirm Modal --}}
+  <div class="modal fade" id="quotationConfirmModal" tabindex="-1" aria-labelledby="quotationConfirmModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="quotationConfirmModalLabel">
-            Confirm Quotation
-          </h5>
-          <button type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"></button>
+          <h5 class="modal-title" id="quotationConfirmModalLabel">Confirm Quotation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           Are you sure you want to add this project to your quotation list?
@@ -141,102 +133,42 @@
         <div class="modal-footer">
           <button type="button"
                   class="btn btn-secondary"
-                  data-bs-dismiss="modal">
-            Cancel
-          </button>
+                  data-bs-dismiss="modal">Cancel</button>
           <button type="button"
                   class="btn btn-primary"
-                  id="confirmQuotationBtn">
-            Yes, Add
-          </button>
+                  id="confirmQuotationBtn">Yes, Add</button>
         </div>
       </div>
     </div>
   </div>
-@endsection
 
-@push('scripts')
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    let formToSubmit = null;
-    const quotationModal = new bootstrap.Modal(
-      document.getElementById('quotationConfirmModal')
-    );
-    const confirmBtn = document.getElementById('confirmQuotationBtn');
-
-    document.querySelectorAll('.quotation-btn').forEach(btn => {
-      btn.addEventListener('click', e => {
-        formToSubmit = e.target.closest('.quotation-form');
-        quotationModal.show();
-      });
-    });
-
-    confirmBtn.addEventListener('click', () => {
-      if (formToSubmit) formToSubmit.submit();
-    });
-  });
-</script>
-@endpush
-
-@section('modals')
-  <!-- Modal: Edit Profile Image -->
-  <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <form method="POST"
-            action="{{ route('profile.update') }}"
-            enctype="multipart/form-data"
-            class="modal-content">
-        @csrf
-        @method('PATCH')    {{-- ← required to hit your PATCH route --}}
-
-        <div class="modal-header">
-          <h5 class="modal-title">Edit Profile Image</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">Choose Image</label>
-            <input type="file"
-                   name="profile_image"
-                   class="form-control @error('profile_image') is-invalid @enderror"
-                   required>
-            @error('profile_image')
-              <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal">Cancel</button>
-          <button type="submit"
-                  class="btn btn-primary">Upload</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Modal: Edit Profile Info -->
+  {{-- Edit Profile Info Modal --}}
   <div class="modal fade" id="infoModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <form method="POST"
             action="{{ route('profile.info') }}"
             class="modal-content">
         @csrf
-        @method('PATCH')    {{-- ← required to hit your PATCH route --}}
+        @method('PATCH')
 
         <div class="modal-header">
           <h5 class="modal-title">Edit Profile Info</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
+
         <div class="modal-body">
           <div class="row g-3">
             @foreach([
-              'first_name'=>'First Name','last_name'=>'Last Name',
-              'company_name'=>'Company','company_size'=>'Company Size',
-              'position'=>'Position','mobile'=>'Mobile',
-              'street'=>'Street','barangay'=>'Barangay',
-              'city'=>'City','region'=>'Region'
+              'first_name'   => 'First Name',
+              'last_name'    => 'Last Name',
+              'company_name' => 'Company',
+              'company_size' => 'Company Size',
+              'position'     => 'Position',
+              'mobile'       => 'Mobile',
+              'street'       => 'Street',
+              'barangay'     => 'Barangay',
+              'city'         => 'City',
+              'region'       => 'Region',
             ] as $field => $label)
               <div class="col-md-6">
                 <label class="form-label">{{ $label }}</label>
@@ -251,6 +183,7 @@
             @endforeach
           </div>
         </div>
+
         <div class="modal-footer">
           <button type="button"
                   class="btn btn-secondary"
@@ -263,10 +196,29 @@
   </div>
 @endsection
 
+@push('scripts')
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Quotation modal setup
+    const qEl = document.getElementById('quotationConfirmModal');
+    if (qEl) {
+      const qModal = new bootstrap.Modal(qEl);
+      let formToSubmit = null;
+      document.querySelectorAll('.quotation-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          formToSubmit = e.target.closest('.quotation-form');
+          qModal.show();
+        });
+      });
+      document.getElementById('confirmQuotationBtn')
+              .addEventListener('click', () => formToSubmit?.submit());
+    }
+  });
+</script>
+@endpush
 
 @push('styles')
 <style>
-  /* subtle lift effect on hover */
   .transition-hover {
     transition: transform .2s, box-shadow .2s;
   }
